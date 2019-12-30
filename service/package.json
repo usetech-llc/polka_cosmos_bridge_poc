@@ -1,0 +1,19 @@
+{
+  "name": "BridgeRelayService",
+  "version": "1.0.0",
+  "description": "Bridge Relay Service",
+  "main": "",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": ""
+  },
+  "author": "",
+  "license": "MIT",
+  "homepage": "",
+  "dependencies": {
+    "fs": "0.0.1-security"
+  }
+}
