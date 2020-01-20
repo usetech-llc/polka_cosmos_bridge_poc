@@ -14,6 +14,7 @@
   "license": "MIT",
   "homepage": "",
   "dependencies": {
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "@polkadot/api": "^0.100.1"
   }
 }
