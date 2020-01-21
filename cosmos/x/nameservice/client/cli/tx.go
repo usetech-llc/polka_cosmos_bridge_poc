@@ -25,6 +25,7 @@ func GetTxCmd(storeKey string, cdc *codec.Codec) *cobra.Command {
 		GetCmdBuyName(cdc),
 		GetCmdSetName(cdc),
 		GetCmdDeleteName(cdc),
+		GetCmdForwardFunds(cdc),
 	)...)
 
 	return nameserviceTxCmd
@@ -102,6 +103,36 @@ func GetCmdDeleteName(cdc *codec.Codec) *cobra.Command {
 			}
 
 			// return utils.CompleteAndBroadcastTxCLI(txBldr, cliCtx, msgs)
+			return utils.GenerateOrBroadcastMsgs(cliCtx, txBldr, []sdk.Msg{msg})
+		},
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+// BRIDGE
+
+// GetCmdForwardFunds is the CLI command for forward funds transaction
+func GetCmdForwardFunds(cdc *codec.Codec) *cobra.Command {
+	return &cobra.Command{
+		Use:   "forward [amount]",
+		Short: "Bridge command to forward funds",
+		Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			cliCtx := context.NewCLIContext().WithCodec(cdc)
+
+			txBldr := auth.NewTxBuilderFromCLI().WithTxEncoder(utils.GetTxEncoder(cdc))
+
+			coins, err := sdk.ParseCoins(args[0])
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgForwardFunds(coins, cliCtx.GetFromAddress())
+			err = msg.ValidateBasic()
+			if err != nil {
+				return err
+			}
+
 			return utils.GenerateOrBroadcastMsgs(cliCtx, txBldr, []sdk.Msg{msg})
 		},
 	}

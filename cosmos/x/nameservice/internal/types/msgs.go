@@ -136,3 +136,48 @@ func (msg MsgDeleteName) GetSignBytes() []byte {
 func (msg MsgDeleteName) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{msg.Owner}
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+// BRIDGE
+
+// MsgForwardFunds defines the ForwardFunds message
+type MsgForwardFunds struct {
+	Amount   sdk.Coins      `json:"amount"`
+	Relay    sdk.AccAddress `json:"relay"`
+	Caller   sdk.AccAddress `json:"caller"`
+}
+
+// NewForwardFunds is the constructor function for MsgForwardFunds
+func NewForwardFunds(amount sdk.Coins, relay sdk.AccAddress) ForwardFunds {
+	return ForwardFunds{
+		Amount: amount,
+		Relay:  relay,
+	}
+}
+
+// Route should return the name of the module
+func (msg ForwardFunds) Route() string { return RouterKey }
+
+// Type should return the action
+func (msg ForwardFunds) Type() string { return "forward_funds" }
+
+// ValidateBasic runs stateless checks on the message
+func (msg ForwardFunds) ValidateBasic() sdk.Error {
+	if !msg.Amount.IsAllPositive() {
+		return sdk.ErrInsufficientCoins("Amount must be positive")
+	}
+	if msg.Relay.Empty() {
+		return sdk.ErrInvalidAddress(msg.Relay.String())
+	}
+	return nil
+}
+
+// GetSignBytes encodes the message for signing
+func (msg ForwardFunds) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
+}
+
+// GetSigners defines whose signature is required
+func (msg ForwardFunds) GetSigners() []sdk.AccAddress {
+	return []sdk.AccAddress{msg.Relay}
+}

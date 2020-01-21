@@ -17,6 +17,7 @@ var (
 	NewMsgBuyName    = types.NewMsgBuyName
 	NewMsgSetName    = types.NewMsgSetName
 	NewMsgDeleteName = types.NewMsgDeleteName
+	NewForwardFunds  = types.NewMsgForwardFunds
 	NewWhois         = types.NewWhois
 	ModuleCdc        = types.ModuleCdc
 	RegisterCodec    = types.RegisterCodec
@@ -27,6 +28,7 @@ type (
 	MsgSetName      = types.MsgSetName
 	MsgBuyName      = types.MsgBuyName
 	MsgDeleteName   = types.MsgDeleteName
+	MsgForwardFunds = types.MsgForwardFunds
 	QueryResResolve = types.QueryResResolve
 	QueryResNames   = types.QueryResNames
 	Whois           = types.Whois

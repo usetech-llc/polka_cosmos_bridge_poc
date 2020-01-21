@@ -18,6 +18,8 @@ func NewHandler(keeper Keeper) sdk.Handler {
 			return handleMsgBuyName(ctx, keeper, msg)
 		case MsgDeleteName:
 			return handleMsgDeleteName(ctx, keeper, msg)
+		case MsgForwardFunds:
+			return handleMsgForwardFunds(cts, keeper, msg)
 		default:
 			errMsg := fmt.Sprintf("Unrecognized nameservice Msg type: %v", msg.Type())
 			return sdk.ErrUnknownRequest(errMsg).Result()
@@ -66,5 +68,13 @@ func handleMsgDeleteName(ctx sdk.Context, keeper Keeper, msg MsgDeleteName) sdk.
 	}
 
 	keeper.DeleteWhois(ctx, msg.Name)
+	return sdk.Result{}
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// BRIDGE: Handle a message to forward funds
+func handleMsgForwardFunds(ctx sdk.Context, keeper Keeper, msg MsgForwardFunds) sdk.Result {
+	keeper.CoinKeeper.SendCoins(ctx, msg.Buyer, keeper.GetOwner(ctx, msg.Name), msg.Bid)
 	return sdk.Result{}
 }
