@@ -148,7 +148,7 @@ type MsgForwardFunds struct {
 }
 
 // NewForwardFunds is the constructor function for MsgForwardFunds
-func NewForwardFunds(amount sdk.Coins, relay sdk.AccAddress) ForwardFunds {
+func NewForwardFunds(amount sdk.Coins, relay sdk.AccAddress) MsgForwardFunds {
 	return ForwardFunds{
 		Amount: amount,
 		Relay:  relay,
