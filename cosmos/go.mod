@@ -1,4 +1,4 @@
-module github.com/cosmos/sdk-tutorials/nameservice
+module github.com/usetech-llc/polka_cosmos_bridge_poc/cosmos
 
 go 1.13
 

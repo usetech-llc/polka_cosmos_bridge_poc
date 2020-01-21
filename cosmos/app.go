@@ -25,7 +25,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	"github.com/cosmos/cosmos-sdk/x/supply"
 
-	"github.com/cosmos/sdk-tutorials/nameservice/x/nameservice"
+	"github.com/usetech-llc/polka_cosmos_bridge_poc/cosmos/x/nameservice"
 )
 
 const appName = "nameservice"
