@@ -24,4 +24,14 @@ make install
 ./setup.sh
 ```
 
-After node starts, get the bob's address with command line utility and copy to `node/app.js`
+After node starts, get the Bob's address with command line utility and copy to `node/app.js`
+
+## Starting Relay
+
+Make sure Bob's cosmos address and Relay address in Substrate are updated. Relay address doesn't have to be any special address, it only needs to receive DOTs (or DEVs, or whatever network currency is).
+
+```
+cd node
+npm install
+node app.js
+```
