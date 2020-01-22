@@ -6,6 +6,11 @@ Here is the video demonstrating how this bridge pre-POC works:
 
 https://github.com/usetech-llc/polka_cosmos_bridge_poc/blob/master/substrate_cosmos_bridge.mp4
 
+The video is also uploaded here:
+
+https://youtu.be/zxGRwNJXXfI
+
+
 ## Starting Substrate
 
 ```
