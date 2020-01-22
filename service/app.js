@@ -6,21 +6,20 @@ const shell = require('shelljs');
 
 let api;
 
-const alicePolka = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
-const aliceCosmos = 'cosmos142f0ytmcqv3htm6mz7ysds7xjndrxjj97vpdcn';
-const jackRelayCosmos = 'cosmos194j4ncgzx5avjgptgqmsuc8fmtremd8t6pjh4f';
+const relayLockPolka = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+const bobCosmos = 'cosmos18zc547c50kpcvpcjny8w4xm0sh09qdj5mu5u7m';
 
 let previousBalance = null;
 
 async function relayBalanceLock(amount) {
-  shell.exec(`cd ../cosmos && ./calltx.sh ${amount}`);
+  shell.exec(`cd ../cosmos && ./calltx.sh ${amount} ${bobCosmos}`);
   shell.exec(`sleep 1`);
   shell.exec(`clear`);
 }
 
 async function getPolkaBalance() {
   // The actual address that we will use
-  const ADDR = alicePolka;
+  const ADDR = relayLockPolka;
 
   // Retrieve the account balance via the balances module
   const balance = new BigNumber(await api.query.balances.freeBalance(ADDR));
@@ -37,7 +36,7 @@ async function getPolkaBalance() {
     previousBalance = balance;
   }
 
-  process.stdout.write(`\rAlice balance on Polkadot: ${balance.div(1e12).toFixed()}, waiting for balance change...            `);
+  process.stdout.write(`\rRelay lock balance on Polkadot: ${balance.div(1e12).toFixed()}, waiting for balance change...            `);
 }
 
 async function mainLoopHandler() {
