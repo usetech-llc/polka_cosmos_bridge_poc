@@ -147,22 +147,23 @@ type MsgForwardFunds struct {
 	Caller   sdk.AccAddress `json:"caller"`
 }
 
-// NewForwardFunds is the constructor function for MsgForwardFunds
-func NewForwardFunds(amount sdk.Coins, relay sdk.AccAddress) MsgForwardFunds {
-	return ForwardFunds{
+// NewMsgForwardFunds is the constructor function for MsgForwardFunds
+func NewMsgForwardFunds(amount sdk.Coins, relay sdk.AccAddress, caller sdk.AccAddress) MsgForwardFunds {
+	return MsgForwardFunds{
 		Amount: amount,
 		Relay:  relay,
+		Caller: caller,
 	}
 }
 
 // Route should return the name of the module
-func (msg ForwardFunds) Route() string { return RouterKey }
+func (msg MsgForwardFunds) Route() string { return RouterKey }
 
 // Type should return the action
-func (msg ForwardFunds) Type() string { return "forward_funds" }
+func (msg MsgForwardFunds) Type() string { return "forward_funds" }
 
 // ValidateBasic runs stateless checks on the message
-func (msg ForwardFunds) ValidateBasic() sdk.Error {
+func (msg MsgForwardFunds) ValidateBasic() sdk.Error {
 	if !msg.Amount.IsAllPositive() {
 		return sdk.ErrInsufficientCoins("Amount must be positive")
 	}
@@ -173,11 +174,11 @@ func (msg ForwardFunds) ValidateBasic() sdk.Error {
 }
 
 // GetSignBytes encodes the message for signing
-func (msg ForwardFunds) GetSignBytes() []byte {
+func (msg MsgForwardFunds) GetSignBytes() []byte {
 	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
 }
 
 // GetSigners defines whose signature is required
-func (msg ForwardFunds) GetSigners() []sdk.AccAddress {
+func (msg MsgForwardFunds) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{msg.Relay}
 }

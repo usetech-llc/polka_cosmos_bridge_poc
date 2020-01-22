@@ -114,9 +114,9 @@ func GetCmdDeleteName(cdc *codec.Codec) *cobra.Command {
 // GetCmdForwardFunds is the CLI command for forward funds transaction
 func GetCmdForwardFunds(cdc *codec.Codec) *cobra.Command {
 	return &cobra.Command{
-		Use:   "forward [amount]",
+		Use:   "forward [amount] [address]",
 		Short: "Bridge command to forward funds",
-		Args:  cobra.ExactArgs(1),
+		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cliCtx := context.NewCLIContext().WithCodec(cdc)
 
@@ -127,7 +127,12 @@ func GetCmdForwardFunds(cdc *codec.Codec) *cobra.Command {
 				return err
 			}
 
-			msg := types.NewMsgForwardFunds(coins, cliCtx.GetFromAddress())
+			caller, err := sdk.AccAddressFromBech32(args[1])
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgForwardFunds(coins, cliCtx.GetFromAddress(), caller)
 			err = msg.ValidateBasic()
 			if err != nil {
 				return err
